@@ -1,62 +1,127 @@
+import { Link } from "react-router-dom";
 import GenderCheckbox from "./GenderCheckbox";
+import { useState } from "react";
+import useSignup from "../../hooks/useSignup";
+
 const SignUp = () => {
-	return (
-		<div className='flex flex-col items-center justify-center min-w-96 mx-auto'>
-			<div className='w-full p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0'>
-				<h1 className='text-3xl font-semibold text-center text-gray-300'>
-					Sign Up <span className='text-blue-500'> ChatApp</span>
-				</h1>
+  const [inputs, setInputs] = useState({
+    fullName: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+    gender: "",
+  });
 
-				<form>
-					<div>
-						<label className='label p-2'>
-							<span className='text-base text-gray-300 label-text'>Full Name</span>
-						</label>
-						<input type='text' placeholder='Roshan Jaiswal' className='w-full input input-bordered  h-10' />
-					</div>
+  const { loading, signup } = useSignup(); //should be curly bracket
 
-					<div>
-						<label className='label p-2 '>
-							<span className='text-base text-gray-300 label-text'>Username</span>
-						</label>
-						<input type='text' placeholder='CodeCortex' className='w-full input input-bordered h-10' />
-					</div>
+  const handleCheckboxChange = (gender) => {
+    setInputs({ ...inputs, gender })
+  }
 
-					<div>
-						<label className='label'>
-							<span className='text-base text-gray-300 label-text'>Password</span>
-						</label>
-						<input
-							type='password'
-							placeholder='Enter Password'
-							className='w-full input input-bordered h-10'
-						/>
-					</div>
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    //signup functionality
+    // console.log(inputs);
+    await signup(inputs);
 
-					<div>
-						<label className='label'>
-							<span className='text-base text-gray-300 label-text'>Confirm Password</span>
-						</label>
-						<input
-							type='password'
-							placeholder='Confirm Password'
-							className='w-full input input-bordered h-10'
-						/>
-					</div>
-                    {/* gender check boxx */}
 
-					<GenderCheckbox />
+  };
 
-					<a className='text-sm text-gray-400 hover:underline hover:text-blue-600 mt-2 inline-block' href='#'>
-						Already have an account?
-					</a>
+  return (
+    <div className="flex flex-col items-center justify-center min-w-96 mx-auto">
+      <div className="w-full p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0">
+        <h1 className="text-3xl font-semibold text-center text-gray-300">
+          Sign Up <span className="text-blue-500"> ChatApp</span>
+        </h1>
 
-					<div>
-						<button className='btn btn-block btn-sm mt-2 border border-slate-700'>Sign Up</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	);
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label className="label p-2">
+              <span className="text-base text-gray-300 label-text">
+                Full Name
+              </span>
+            </label>
+            <input
+              type="text"
+              placeholder="Roshan Jaiswal"
+              className="w-full input input-bordered  h-10"
+              value={inputs.fullName}
+              onChange={(e) =>
+                setInputs({ ...inputs, fullName: e.target.value })
+              }
+            />
+          </div>
+
+          <div>
+            <label className="label p-2 ">
+              <span className="text-base text-gray-300 label-text">
+                Username
+              </span>
+            </label>
+            <input
+              type="text"
+              placeholder="CodeCortex"
+              className="w-full input input-bordered h-10"
+              value={inputs.username}
+              onChange={(e) =>
+                setInputs({ ...inputs, username: e.target.value })
+              }
+            />
+          </div>
+
+          <div>
+            <label className="label">
+              <span className="text-base text-gray-300 label-text">
+                Password
+              </span>
+            </label>
+            <input
+              type="password"
+              placeholder="Enter Password"
+              className="w-full input input-bordered h-10"
+              value={inputs.password}
+              onChange={(e) =>
+                setInputs({ ...inputs, password: e.target.value })
+              }
+            />
+          </div>
+
+          <div>
+            <label className="label">
+              <span className="text-base text-gray-300 label-text">
+                Confirm Password
+              </span>
+            </label>
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              className="w-full input input-bordered h-10"
+              value={inputs.confirmPassword}
+              onChange={(e) =>
+                setInputs({ ...inputs, confirmPassword: e.target.value })
+              }
+            />
+          </div>
+          {/* gender check boxx */}
+
+          <GenderCheckbox onChekboxChange={handleCheckboxChange} selectedGender={inputs.gender} />
+
+          <Link
+            to={"/Login"}
+            className="text-sm text-gray-400 hover:underline hover:text-blue-600 mt-2 inline-block"
+            href="#"
+          >
+            Already have an account?
+          </Link>
+
+          <div>
+            <button className="btn btn-block btn-sm mt-2 border border-slate-700">
+              Sign Up
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 };
 export default SignUp;
