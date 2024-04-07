@@ -8,11 +8,11 @@ import userRoutes from "./routes/user.routes.js"
 
 import connectToMongoDB from "./db/connectToMongoDB.js";
 import {app,server} from "./socket/socket.js"
-dotenv.config();
 
 
 const PORT = process.env.PORT || 8000;
 
+dotenv.config();
 
 app.use(express.json()); //to parse the incoming request with json payloads (from req.body);
 app.use(cookieParser()); //to parse the incoming cookies from req.body
